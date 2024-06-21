@@ -58,6 +58,7 @@ export default function App() {
   }
 
   function orderByPriority() {
+    // orders the notes based on priority
     const sortedNotes = [...notes].sort((a, b) => b.priority - a.priority);
     setNotes(sortedNotes);
   }
@@ -65,7 +66,7 @@ export default function App() {
     <>
       <div className="wrapper">
         <div className="header-area">
-          <h2>ToDone (heh)</h2>
+          <h2>Todo List</h2>
           <p>For all your note taking needs</p>
         </div>
         <div className="create-note">
@@ -80,23 +81,23 @@ export default function App() {
           </form>
         </div>
         <div className="notes-body">
-          <button className="priority-button" onClick={orderByPriority}>
-            Sort by priority
-          </button>
           <div className="notes-list">
+            <button className="priority-button" onClick={orderByPriority}>
+              Sort by priority
+            </button>
             {notes.map((note, index) => {
               return (
-                <div className="list-item">
+                <div
+                  className="list-item"
+                  onClick={() => toggleCompletion(index)}
+                >
                   <div
                     className="priority"
                     onClick={() => incrementPriority(index)}
                   >
                     {"!".repeat(note.priority)}
                   </div>
-                  <div
-                    className={`title ${note.completed ? "completed" : ""}`}
-                    onClick={() => toggleCompletion(index)}
-                  >
+                  <div className={`title ${note.completed ? "completed" : ""}`}>
                     {note.title}
                   </div>
                   <div className="tag">#{note.tag}</div>
