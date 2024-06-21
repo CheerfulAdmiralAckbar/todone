@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -10,6 +10,11 @@ library.add(faPencilAlt, faDeleteLeft);
 
 export default function App() {
   const [notes, setNotes] = useState([]);
+
+  // Whenever the state of notes changes, it runs orderByPriority and reorders the list.
+  useEffect(() => {
+    orderByPriority();
+  }, [notes]);
 
   function publish(event) {
     // Stop form from submitting and changing page when the user presses the button
@@ -83,14 +88,6 @@ export default function App() {
         </div>
         <div className="notes-body">
           <div className="notes-list">
-            {notes.length !== 0 ? (
-              <button className="priority-button" onClick={orderByPriority}>
-                Sort by priority
-              </button>
-            ) : (
-              ""
-            )}
-
             {notes.length === 0 ? (
               <p>No notes available. Create one!</p>
             ) : (
