@@ -12,9 +12,9 @@ export default function App() {
   const [notes, setNotes] = useState([]);
 
   function publish(event) {
-    // Stop form from submitting and changing page
+    // Stop form from submitting and changing page when the user presses the button
     event.preventDefault();
-    const formData = new FormData(event.target); // Get the form data
+    const formData = new FormData(event.target);
     const title = formData.get("title");
     const tag = formData.get("tag");
     setNotes([...notes, { title, tag, priority: 0 }]);
@@ -33,6 +33,7 @@ export default function App() {
   function incrementPriority(index) {
     setNotes(
       notes.map((note, i) =>
+        // checks if the index of the map method is the same as the note, if so it increases the priority if it's below 3.
         i === index
           ? {
               ...note,
@@ -43,11 +44,28 @@ export default function App() {
     );
   }
 
+  function toggleCompletion(index) {
+    setNotes(
+      notes.map((note, i) =>
+        i === index
+          ? {
+              ...note,
+              completed: !note.completed,
+            }
+          : note
+      )
+    );
+  }
+
+  function orderByPriority() {
+    const sortedNotes = [...notes].sort((a, b) => b.priority - a.priority);
+    setNotes(sortedNotes);
+  }
   return (
     <>
       <div className="wrapper">
         <div className="header-area">
-          <h2>ToDone</h2>
+          <h2>ToDone (heh)</h2>
           <p>For all your note taking needs</p>
         </div>
         <div className="create-note">
@@ -62,6 +80,9 @@ export default function App() {
           </form>
         </div>
         <div className="notes-body">
+          <button className="priority-button" onClick={orderByPriority}>
+            Sort by priority
+          </button>
           <div className="notes-list">
             {notes.map((note, index) => {
               return (
@@ -72,7 +93,12 @@ export default function App() {
                   >
                     {"!".repeat(note.priority)}
                   </div>
-                  <div className="title">{note.title}</div>
+                  <div
+                    className={`title ${note.completed ? "completed" : ""}`}
+                    onClick={() => toggleCompletion(index)}
+                  >
+                    {note.title}
+                  </div>
                   <div className="tag">#{note.tag}</div>
                   <div className="actions">
                     <button
@@ -82,7 +108,7 @@ export default function App() {
                       <FontAwesomeIcon
                         icon="delete-left"
                         size="sm"
-                        color="white"
+                        color="black"
                       />
                     </button>
                   </div>

@@ -126,6 +126,13 @@
   font-weight: bold;
 }
 
+.priority-button {
+  background: orange;
+  padding: 5px;
+  border-radius: 0px;
+  float: right;
+}
+
 .accented-circle {
   width: 20px;
   height: 20px;
@@ -148,9 +155,13 @@
 }
 
 .delete-button {
-  background: rgb(116, 18, 18);
+  background: rgb(215 215 215);
 }
 
 .edit-button {
   /* style as needed */
+}
+
+.title.completed {
+  text-decoration: line-through;
 }
