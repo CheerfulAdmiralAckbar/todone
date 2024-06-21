@@ -45,6 +45,7 @@ export default function App() {
   }
 
   function toggleCompletion(index) {
+    // map out the notes, when the index of the note in state is the same as the one clicked, reverse the value of completed, it's inside of setNotes so will automatically update the state
     setNotes(
       notes.map((note, i) =>
         i === index
@@ -82,40 +83,49 @@ export default function App() {
         </div>
         <div className="notes-body">
           <div className="notes-list">
-            <button className="priority-button" onClick={orderByPriority}>
-              Sort by priority
-            </button>
-            {notes.map((note, index) => {
-              return (
-                <div
-                  className="list-item"
-                  onClick={() => toggleCompletion(index)}
-                >
-                  <div
-                    className="priority"
-                    onClick={() => incrementPriority(index)}
-                  >
-                    {"!".repeat(note.priority)}
-                  </div>
-                  <div className={`title ${note.completed ? "completed" : ""}`}>
-                    {note.title}
-                  </div>
-                  <div className="tag">#{note.tag}</div>
-                  <div className="actions">
-                    <button
-                      className="delete-button"
-                      onClick={() => deleteNote(index)}
+            {notes.length !== 0 ? (
+              <button className="priority-button" onClick={orderByPriority}>
+                Sort by priority
+              </button>
+            ) : (
+              ""
+            )}
+
+            {notes.length === 0 ? (
+              <p>No notes available. Create one!</p>
+            ) : (
+              notes.map((note, index) => {
+                return (
+                  <div className="list-item">
+                    <div
+                      className="priority"
+                      onClick={() => incrementPriority(index)}
                     >
-                      <FontAwesomeIcon
-                        icon="delete-left"
-                        size="sm"
-                        color="black"
-                      />
-                    </button>
+                      {"!".repeat(note.priority)}
+                    </div>
+                    <div
+                      className={`title ${note.completed ? "completed" : ""}`}
+                      onClick={() => toggleCompletion(index)}
+                    >
+                      {note.title}
+                    </div>
+                    <div className="tag">#{note.tag}</div>
+                    <div className="actions">
+                      <button
+                        className="delete-button"
+                        onClick={() => deleteNote(index)}
+                      >
+                        <FontAwesomeIcon
+                          icon="delete-left"
+                          size="sm"
+                          color="black"
+                        />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </div>
