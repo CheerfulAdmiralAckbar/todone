@@ -38,7 +38,8 @@ export default function App() {
   function incrementPriority(index) {
     setNotes(
       notes.map((note, i) =>
-        // checks if the index of the map method is the same as the note, if so it increases the priority if it's below 3.
+        // if index of the map is equal to the index of the note, spread the note and then change the value of priority
+        // if priority is less than 3 add 1 onto the value, else set it to zero.
         i === index
           ? {
               ...note,
